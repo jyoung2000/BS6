@@ -1,12 +1,13 @@
 /**
- * Box AI Chat - Modern Apple-inspired Frontend
- * Clean, modern interactions following Apple design principles
+ * Box AI Chat - Premium Apple-inspired Frontend
+ * Fluid, modern interactions following Apple HIG 2024
+ * Enhanced with smooth animations and micro-interactions
  */
 
 (function($) {
     'use strict';
 
-    console.log('Box AI Chat (Apple Design) script loaded');
+    console.log('Box AI Chat (Premium Apple Design) script loaded');
 
     // Wait for DOM to be ready
     $(document).ready(function() {
@@ -45,41 +46,50 @@
 
         console.log('Box AI Chat initialized successfully');
 
-        // Open modal with smooth animation
+        // Open modal with fluid animation
         $chatButton.on('click', function(e) {
             e.preventDefault();
             console.log('Chat button clicked. Summary loaded:', summaryLoaded);
 
-            // Show modal with animation
-            $wrapper.fadeIn(300, function() {
+            // Add haptic-like visual feedback
+            $(this).css('transform', 'scale(0.92)');
+            setTimeout(() => {
+                $(this).css('transform', '');
+            }, 150);
+
+            // Show modal with enhanced animation
+            $wrapper.css('display', 'block').hide().fadeIn(350, function() {
                 console.log('Modal is now visible');
-                
+
                 // Add animation class for container
                 $container.addClass('animate-in');
 
-                // Auto-generate summary on first open
+                // Auto-generate summary on first open with delay
                 if (!summaryLoaded) {
                     console.log('Starting auto-summary generation...');
                     setTimeout(function() {
                         generateSummary();
-                    }, 400); // Wait for animation to complete
+                    }, 450); // Wait for animation to complete
                 } else {
                     console.log('Summary already loaded, focusing input');
-                    $inputField.focus();
+                    setTimeout(function() {
+                        $inputField.focus();
+                    }, 300);
                 }
             });
         });
 
-        // Close modal with animation
+        // Close modal with fluid animation
         function closeModal() {
             $wrapper.attr('data-state', 'closing');
-            
+
+            // Animate out
             setTimeout(function() {
-                $wrapper.fadeOut(300, function() {
+                $wrapper.fadeOut(350, function() {
                     $wrapper.removeAttr('data-state');
                     $container.removeClass('animate-in');
                 });
-            }, 300);
+            }, 200);
         }
 
         $closeButton.on('click', closeModal);
@@ -263,11 +273,21 @@
 
             $message.append($content);
             $messagesContainer.append($message);
-            
-            // Add smooth animation
-            $message.hide().fadeIn(300);
-            
-            scrollToBottom();
+
+            // Add smooth slide and fade animation
+            $message.css({
+                opacity: 0,
+                transform: 'translateY(20px)'
+            }).animate({
+                opacity: 1
+            }, 350, function() {
+                $(this).css('transform', 'translateY(0)');
+            });
+
+            // Smooth scroll to new message
+            setTimeout(function() {
+                scrollToBottom();
+            }, 100);
         }
 
         function formatAIResponse(text) {
@@ -319,10 +339,14 @@
             return formatted;
         }
 
-        function scrollToBottom() {
-            $messagesContainer.animate({
-                scrollTop: $messagesContainer[0].scrollHeight
-            }, 300, 'swing');
+        function scrollToBottom(instant) {
+            if (instant) {
+                $messagesContainer.scrollTop($messagesContainer[0].scrollHeight);
+            } else {
+                $messagesContainer.animate({
+                    scrollTop: $messagesContainer[0].scrollHeight
+                }, 400, 'easeOutCubic');
+            }
         }
 
         // Escape HTML to prevent XSS
