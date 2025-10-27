@@ -277,18 +277,19 @@ class Box_Document_Viewer {
 
                 .btn-ai {
                     color: #fff !important;
-                    background: linear-gradient(135deg, #AF52DE, #8E3AC0);
-                    box-shadow: 0 2px 8px rgba(175, 82, 222, 0.35);
+                    background: linear-gradient(135deg, #0070E0, #0061D5);
+                    box-shadow: 0 2px 8px rgba(0, 112, 224, 0.35);
                 }
 
                 .btn-ai:hover {
-                    background: linear-gradient(135deg, #8E3AC0, #6D28D9);
+                    background: linear-gradient(135deg, #0080F0, #0070E0);
                     transform: translateY(-1px);
-                    box-shadow: 0 4px 16px rgba(175, 82, 222, 0.45);
+                    box-shadow: 0 4px 16px rgba(0, 112, 224, 0.45);
                 }
 
                 .btn-ai:active {
                     transform: translateY(0);
+                    box-shadow: 0 2px 6px rgba(0, 112, 224, 0.3);
                 }
 
                 .btn-ai .dashicons {
@@ -760,13 +761,13 @@ class Box_Document_Viewer {
                     padding: var(--chat-spacing-md) var(--chat-spacing-lg);
                     background: var(--chat-gray-50);
                     border: 1.5px solid var(--chat-gray-200);
-                    border-radius: var(--chat-radius-2xl);
+                    border-radius: var(--chat-radius-lg);
                     font-size: 16px;
                     font-family: inherit;
-                    resize: none;
+                    resize: vertical;
                     transition: all 0.3s ease-out;
-                    min-height: 50px;
-                    max-height: 120px;
+                    min-height: 80px;
+                    max-height: 200px;
                     line-height: 1.5;
                 }
 
@@ -815,6 +816,7 @@ class Box_Document_Viewer {
                     .box-ai-chat-container {
                         width: 100%;
                         height: 100%;
+                        min-height: 90vh;
                         max-width: none;
                         max-height: none;
                         border-radius: 0;
@@ -840,7 +842,8 @@ class Box_Document_Viewer {
 
                     .box-ai-chat-input {
                         font-size: 16px; /* Prevents iOS zoom */
-                        min-height: 46px;
+                        min-height: 70px;
+                        border-radius: var(--chat-radius-md);
                     }
 
                     .box-ai-chat-send {
