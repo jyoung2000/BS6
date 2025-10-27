@@ -83,10 +83,6 @@ class Box_API_Integration {
         // OAuth callback
         add_action('admin_init', array($this, 'handle_oauth_callback'));
 
-        // Activation/deactivation hooks
-        register_activation_hook(__FILE__, array($this, 'activate'));
-        register_deactivation_hook(__FILE__, array($this, 'deactivate'));
-
         // Add cron hook for token refresh
         add_action('box_refresh_token_cron', array($this, 'auto_refresh_token'));
 
@@ -743,9 +739,9 @@ class Box_API_Integration {
     /**
      * Plugin activation
      */
-    public function activate() {
+    public static function activate() {
         // Create database tables
-        $this->create_tables();
+        self::create_tables();
 
         // Set default redirect URI
         if (!get_option('box_redirect_uri')) {
@@ -759,11 +755,11 @@ class Box_API_Integration {
         // Clear cache
         wp_cache_flush();
     }
-    
+
     /**
      * Plugin deactivation
      */
-    public function deactivate() {
+    public static function deactivate() {
         // Clear scheduled events
         $timestamp = wp_next_scheduled('box_refresh_token_cron');
         if ($timestamp) {
@@ -776,16 +772,16 @@ class Box_API_Integration {
         // Clear cache
         wp_cache_flush();
     }
-    
+
     /**
      * Create database tables
      */
-    private function create_tables() {
+    private static function create_tables() {
         global $wpdb;
-        
+
         $table_name = $wpdb->prefix . 'box_api_logs';
         $charset_collate = $wpdb->get_charset_collate();
-        
+
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             action varchar(100) NOT NULL,
@@ -800,11 +796,15 @@ class Box_API_Integration {
             KEY action (action),
             KEY created_at (created_at)
         ) $charset_collate;";
-        
+
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
     }
 }
+
+// Register activation and deactivation hooks
+register_activation_hook(__FILE__, array('Box_API_Integration', 'activate'));
+register_deactivation_hook(__FILE__, array('Box_API_Integration', 'deactivate'));
 
 // Initialize the plugin
 Box_API_Integration::get_instance();
