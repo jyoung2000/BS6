@@ -201,7 +201,7 @@ class Box_API_Integration {
         register_setting('box_api_settings', 'box_redirect_uri', array(
             'type' => 'string',
             'sanitize_callback' => 'esc_url_raw',
-            'default' => admin_url('admin.php?page=box-api-integration&box_oauth_callback=1')
+            'default' => ''
         ));
 
         // Default upload folder
