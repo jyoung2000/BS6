@@ -73,7 +73,7 @@
         // Close modal with animation
         function closeModal() {
             $wrapper.attr('data-state', 'closing');
-            
+
             setTimeout(function() {
                 $wrapper.fadeOut(300, function() {
                     $wrapper.removeAttr('data-state');
@@ -82,7 +82,19 @@
             }, 300);
         }
 
-        $closeButton.on('click', closeModal);
+        // Go back to previous page or homepage
+        function goBack() {
+            // Check if there's history to go back to
+            if (window.history.length > 1 && document.referrer) {
+                // Go back to previous page
+                window.history.back();
+            } else {
+                // No history, go to homepage
+                window.location.href = '/';
+            }
+        }
+
+        $closeButton.on('click', goBack);
         $backdrop.on('click', closeModal);
 
         // Close on Escape key
