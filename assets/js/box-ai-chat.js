@@ -95,7 +95,8 @@
         // Auto-resize textarea with smooth transition
         $inputField.on('input', function() {
             this.style.height = 'auto';
-            var newHeight = Math.min(this.scrollHeight, 120);
+            var maxHeight = boxAiChat.textareaMaxHeight || 120;
+            var newHeight = Math.min(this.scrollHeight, maxHeight);
             this.style.height = newHeight + 'px';
         });
 
@@ -126,7 +127,8 @@
             addMessage(message, 'user');
 
             // Clear and reset input
-            $inputField.val('').css('height', '48px');
+            var minHeight = boxAiChat.textareaMinHeight || 48;
+            $inputField.val('').css('height', minHeight + 'px');
 
             // Show typing indicator
             var $typingIndicator = createTypingIndicator();

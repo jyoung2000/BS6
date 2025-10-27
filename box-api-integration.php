@@ -228,6 +228,43 @@ class Box_API_Integration {
             'default' => false
         ));
 
+        // AI Chat Customization Settings
+        register_setting('box_api_settings', 'box_ai_chat_primary_color', array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'default' => '#007AFF'
+        ));
+
+        register_setting('box_api_settings', 'box_ai_chat_accent_color', array(
+            'type' => 'string',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'default' => '#AF52DE'
+        ));
+
+        register_setting('box_api_settings', 'box_ai_chat_modal_width', array(
+            'type' => 'integer',
+            'sanitize_callback' => array($this, 'sanitize_modal_width'),
+            'default' => 900
+        ));
+
+        register_setting('box_api_settings', 'box_ai_chat_modal_height', array(
+            'type' => 'integer',
+            'sanitize_callback' => array($this, 'sanitize_modal_height'),
+            'default' => 800
+        ));
+
+        register_setting('box_api_settings', 'box_ai_chat_textarea_min_height', array(
+            'type' => 'integer',
+            'sanitize_callback' => array($this, 'sanitize_textarea_min_height'),
+            'default' => 48
+        ));
+
+        register_setting('box_api_settings', 'box_ai_chat_textarea_max_height', array(
+            'type' => 'integer',
+            'sanitize_callback' => array($this, 'sanitize_textarea_max_height'),
+            'default' => 120
+        ));
+
         // Token storage - SEPARATE GROUP to prevent clearing on settings save
         // These are NOT part of the settings form, so they won't be cleared
         register_setting('box_api_tokens', 'box_access_token', array(
@@ -294,6 +331,62 @@ class Box_API_Integration {
         if (!empty($refresh_token)) {
             $this->schedule_token_refresh();
         }
+    }
+
+    /**
+     * Sanitize modal width
+     */
+    public function sanitize_modal_width($value) {
+        $value = intval($value);
+        // Ensure width is between 400 and 1600 pixels
+        if ($value < 400) {
+            $value = 400;
+        } elseif ($value > 1600) {
+            $value = 1600;
+        }
+        return $value;
+    }
+
+    /**
+     * Sanitize modal height
+     */
+    public function sanitize_modal_height($value) {
+        $value = intval($value);
+        // Ensure height is between 400 and 1200 pixels
+        if ($value < 400) {
+            $value = 400;
+        } elseif ($value > 1200) {
+            $value = 1200;
+        }
+        return $value;
+    }
+
+    /**
+     * Sanitize textarea min height
+     */
+    public function sanitize_textarea_min_height($value) {
+        $value = intval($value);
+        // Ensure min height is between 30 and 100 pixels
+        if ($value < 30) {
+            $value = 30;
+        } elseif ($value > 100) {
+            $value = 100;
+        }
+        return $value;
+    }
+
+    /**
+     * Sanitize textarea max height
+     */
+    public function sanitize_textarea_max_height($value) {
+        $value = intval($value);
+        // Ensure max height is between 60 and 300 pixels
+        if ($value < 60) {
+            $value = 60;
+        } elseif ($value > 300) {
+            $value = 300;
+        }
+        return $value;
     }
 
     /**

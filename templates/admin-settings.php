@@ -180,6 +180,119 @@ if (isset($_GET['settings-updated'])) {
                         </td>
                     </tr>
                 </table>
+
+                <h3><?php _e('AI Chat Customization', 'box-api-integration'); ?></h3>
+                <table class="form-table" role="presentation">
+                    <tr>
+                        <th scope="row">
+                            <label for="box_ai_chat_primary_color"><?php _e('Primary Color', 'box-api-integration'); ?></label>
+                        </th>
+                        <td>
+                            <input type="color"
+                                   id="box_ai_chat_primary_color"
+                                   name="box_ai_chat_primary_color"
+                                   value="<?php echo esc_attr(get_option('box_ai_chat_primary_color', '#007AFF')); ?>" />
+                            <p class="description">
+                                <?php _e('Main color for buttons and accents (default: #007AFF)', 'box-api-integration'); ?>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="box_ai_chat_accent_color"><?php _e('Accent Color', 'box-api-integration'); ?></label>
+                        </th>
+                        <td>
+                            <input type="color"
+                                   id="box_ai_chat_accent_color"
+                                   name="box_ai_chat_accent_color"
+                                   value="<?php echo esc_attr(get_option('box_ai_chat_accent_color', '#AF52DE')); ?>" />
+                            <p class="description">
+                                <?php _e('Secondary color for header and chat bubbles (default: #AF52DE)', 'box-api-integration'); ?>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="box_ai_chat_modal_width"><?php _e('Modal Width', 'box-api-integration'); ?></label>
+                        </th>
+                        <td>
+                            <input type="number"
+                                   id="box_ai_chat_modal_width"
+                                   name="box_ai_chat_modal_width"
+                                   value="<?php echo esc_attr(get_option('box_ai_chat_modal_width', 900)); ?>"
+                                   class="small-text"
+                                   min="400"
+                                   max="1600"
+                                   step="10" />
+                            <span>px</span>
+                            <p class="description">
+                                <?php _e('Maximum width of the chat popup (default: 900px, range: 400-1600px)', 'box-api-integration'); ?>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="box_ai_chat_modal_height"><?php _e('Modal Height', 'box-api-integration'); ?></label>
+                        </th>
+                        <td>
+                            <input type="number"
+                                   id="box_ai_chat_modal_height"
+                                   name="box_ai_chat_modal_height"
+                                   value="<?php echo esc_attr(get_option('box_ai_chat_modal_height', 800)); ?>"
+                                   class="small-text"
+                                   min="400"
+                                   max="1200"
+                                   step="10" />
+                            <span>px</span>
+                            <p class="description">
+                                <?php _e('Maximum height of the chat popup (default: 800px, range: 400-1200px)', 'box-api-integration'); ?>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="box_ai_chat_textarea_min_height"><?php _e('Textarea Min Height', 'box-api-integration'); ?></label>
+                        </th>
+                        <td>
+                            <input type="number"
+                                   id="box_ai_chat_textarea_min_height"
+                                   name="box_ai_chat_textarea_min_height"
+                                   value="<?php echo esc_attr(get_option('box_ai_chat_textarea_min_height', 48)); ?>"
+                                   class="small-text"
+                                   min="30"
+                                   max="100"
+                                   step="1" />
+                            <span>px</span>
+                            <p class="description">
+                                <?php _e('Minimum height of the message input area (default: 48px, range: 30-100px)', 'box-api-integration'); ?>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="box_ai_chat_textarea_max_height"><?php _e('Textarea Max Height', 'box-api-integration'); ?></label>
+                        </th>
+                        <td>
+                            <input type="number"
+                                   id="box_ai_chat_textarea_max_height"
+                                   name="box_ai_chat_textarea_max_height"
+                                   value="<?php echo esc_attr(get_option('box_ai_chat_textarea_max_height', 120)); ?>"
+                                   class="small-text"
+                                   min="60"
+                                   max="300"
+                                   step="10" />
+                            <span>px</span>
+                            <p class="description">
+                                <?php _e('Maximum height of the message input area (default: 120px, range: 60-300px)', 'box-api-integration'); ?>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
                 
                 <p class="submit">
                     <?php submit_button(__('Save Settings', 'box-api-integration'), 'primary', 'submit', false); ?>

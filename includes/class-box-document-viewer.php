@@ -141,6 +141,10 @@ class Box_Document_Viewer {
             BOX_API_VERSION . '-' . time()
         );
 
+        // Add inline CSS for dynamic customization
+        $custom_css = self::get_custom_chat_css();
+        wp_add_inline_style('box-ai-chat-style', $custom_css);
+
         wp_enqueue_script(
             'box-ai-chat',
             BOX_API_PLUGIN_URL . 'assets/js/box-ai-chat.js',
@@ -149,10 +153,19 @@ class Box_Document_Viewer {
             true
         );
 
-        wp_localize_script('box-ai-chat', 'boxAiChat', array(
+        // Pass customization settings to JavaScript
+        $chat_settings = array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('box_ai_chat_nonce')
-        ));
+            'nonce' => wp_create_nonce('box_ai_chat_nonce'),
+            'primaryColor' => get_option('box_ai_chat_primary_color', '#007AFF'),
+            'accentColor' => get_option('box_ai_chat_accent_color', '#AF52DE'),
+            'modalWidth' => get_option('box_ai_chat_modal_width', 900),
+            'modalHeight' => get_option('box_ai_chat_modal_height', 800),
+            'textareaMinHeight' => get_option('box_ai_chat_textarea_min_height', 48),
+            'textareaMaxHeight' => get_option('box_ai_chat_textarea_max_height', 120)
+        );
+
+        wp_localize_script('box-ai-chat', 'boxAiChat', $chat_settings);
 
         // Add custom styles to wp_head
         add_action('wp_head', function() use ($file_name) {
@@ -1692,6 +1705,18 @@ class Box_Document_Viewer {
             // Enqueue dashicons for chat icon
             wp_enqueue_style('dashicons');
 
+            // Enqueue chat CSS
+            wp_enqueue_style(
+                'box-ai-chat-style',
+                BOX_API_PLUGIN_URL . 'assets/css/box-ai-chat.css',
+                array(),
+                BOX_API_VERSION
+            );
+
+            // Add inline CSS for customization
+            $custom_css = self::get_custom_chat_css();
+            wp_add_inline_style('box-ai-chat-style', $custom_css);
+
             wp_enqueue_script(
                 'box-ai-chat',
                 BOX_API_PLUGIN_URL . 'assets/js/box-ai-chat.js',
@@ -1700,11 +1725,115 @@ class Box_Document_Viewer {
                 true
             );
 
-            wp_localize_script('box-ai-chat', 'boxAiChat', array(
+            // Pass customization settings to JavaScript
+            $chat_settings = array(
                 'ajaxUrl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('box_ai_chat_nonce')
-            ));
+                'nonce' => wp_create_nonce('box_ai_chat_nonce'),
+                'primaryColor' => get_option('box_ai_chat_primary_color', '#007AFF'),
+                'accentColor' => get_option('box_ai_chat_accent_color', '#AF52DE'),
+                'modalWidth' => get_option('box_ai_chat_modal_width', 900),
+                'modalHeight' => get_option('box_ai_chat_modal_height', 800),
+                'textareaMinHeight' => get_option('box_ai_chat_textarea_min_height', 48),
+                'textareaMaxHeight' => get_option('box_ai_chat_textarea_max_height', 120)
+            );
+
+            wp_localize_script('box-ai-chat', 'boxAiChat', $chat_settings);
         }
+    }
+
+    /**
+     * Get custom CSS for chat customization
+     */
+    public static function get_custom_chat_css() {
+        // Get customization settings
+        $primary_color = get_option('box_ai_chat_primary_color', '#007AFF');
+        $accent_color = get_option('box_ai_chat_accent_color', '#AF52DE');
+        $modal_width = get_option('box_ai_chat_modal_width', 900);
+        $modal_height = get_option('box_ai_chat_modal_height', 800);
+        $textarea_min_height = get_option('box_ai_chat_textarea_min_height', 48);
+        $textarea_max_height = get_option('box_ai_chat_textarea_max_height', 120);
+
+        // Calculate darker shades for hover effects (darken by ~15%)
+        $primary_dark = self::darken_color($primary_color, 15);
+        $accent_dark = self::darken_color($accent_color, 15);
+
+        // Generate custom CSS
+        $css = "
+        /* Custom AI Chat Colors and Dimensions */
+        :root {
+            --chat-primary: {$primary_color};
+            --chat-primary-dark: {$primary_dark};
+            --chat-purple: {$accent_color};
+            --chat-purple-dark: {$accent_dark};
+        }
+
+        .box-ai-chat-container {
+            max-width: {$modal_width}px !important;
+            max-height: {$modal_height}px !important;
+        }
+
+        .box-ai-chat-input-wrapper textarea {
+            min-height: {$textarea_min_height}px !important;
+            max-height: {$textarea_max_height}px !important;
+        }
+
+        /* Apply primary color */
+        .box-ai-chat-send {
+            background: linear-gradient(135deg, var(--chat-primary), var(--chat-primary-dark)) !important;
+        }
+
+        .box-ai-chat-send:hover {
+            background: linear-gradient(135deg, var(--chat-primary-dark), var(--chat-primary)) !important;
+        }
+
+        /* Apply accent color */
+        .box-ai-chat-fab,
+        .box-ai-chat-header {
+            background: linear-gradient(135deg, var(--chat-purple), var(--chat-purple-dark)) !important;
+        }
+
+        .box-ai-chat-fab:hover {
+            background: linear-gradient(135deg, var(--chat-purple-dark), var(--chat-purple)) !important;
+        }
+
+        .box-ai-chat-message-ai {
+            background: linear-gradient(135deg, rgba(175, 82, 222, 0.08), rgba(142, 58, 192, 0.08)) !important;
+            border-left: 3px solid var(--chat-purple) !important;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .box-ai-chat-message-ai {
+                background: linear-gradient(135deg, rgba(175, 82, 222, 0.15), rgba(142, 58, 192, 0.15)) !important;
+            }
+        }
+        ";
+
+        return $css;
+    }
+
+    /**
+     * Darken a hex color by a percentage
+     */
+    private static function darken_color($hex, $percent) {
+        // Remove # if present
+        $hex = str_replace('#', '', $hex);
+
+        // Convert to RGB
+        $r = hexdec(substr($hex, 0, 2));
+        $g = hexdec(substr($hex, 2, 2));
+        $b = hexdec(substr($hex, 4, 2));
+
+        // Darken
+        $r = max(0, $r - ($r * $percent / 100));
+        $g = max(0, $g - ($g * $percent / 100));
+        $b = max(0, $b - ($b * $percent / 100));
+
+        // Convert back to hex
+        $r = str_pad(dechex(round($r)), 2, '0', STR_PAD_LEFT);
+        $g = str_pad(dechex(round($g)), 2, '0', STR_PAD_LEFT);
+        $b = str_pad(dechex(round($b)), 2, '0', STR_PAD_LEFT);
+
+        return '#' . $r . $g . $b;
     }
 
     /**
