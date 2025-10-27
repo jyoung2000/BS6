@@ -82,19 +82,8 @@
             }, 300);
         }
 
-        // Go back to previous page or homepage
-        function goBack() {
-            // Check if there's history to go back to
-            if (window.history.length > 1 && document.referrer) {
-                // Go back to previous page
-                window.history.back();
-            } else {
-                // No history, go to homepage
-                window.location.href = '/';
-            }
-        }
-
-        $closeButton.on('click', goBack);
+        // Modal close button just closes the modal
+        $closeButton.on('click', closeModal);
         $backdrop.on('click', closeModal);
 
         // Close on Escape key
@@ -376,3 +365,15 @@
 
     }); // End document.ready
 })(jQuery); // End IIFE
+
+// Global function for document viewer back button
+function goBackToPage() {
+    // Check if there's history to go back to
+    if (window.history.length > 1 && document.referrer) {
+        // Go back to previous page
+        window.history.back();
+    } else {
+        // No history, go to homepage
+        window.location.href = '/';
+    }
+}

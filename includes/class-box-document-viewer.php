@@ -1575,7 +1575,12 @@ class Box_Document_Viewer {
                     <?php if ($download_url) : ?>
                         <a href="<?php echo esc_url($download_url); ?>" class="btn btn-primary" download>Download</a>
                     <?php endif; ?>
-                    <button onclick="window.close();" class="btn btn-secondary">Close</button>
+                    <button onclick="goBackToPage();" class="btn btn-secondary" style="display: flex; align-items: center; gap: 6px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin: 0;">
+                            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                        </svg>
+                        <span>Back</span>
+                    </button>
                 </div>
             </div>
 
@@ -1608,9 +1613,9 @@ class Box_Document_Viewer {
                                 <p>Ask anything about this document</p>
                             </div>
                         </div>
-                        <button id="box-ai-chat-close" class="box-ai-chat-close" aria-label="Go back">
+                        <button id="box-ai-chat-close" class="box-ai-chat-close" aria-label="Close chat">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                             </svg>
                         </button>
                     </div>
