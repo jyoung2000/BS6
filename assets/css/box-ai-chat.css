@@ -404,19 +404,18 @@
     padding: var(--space-lg) var(--space-2xl);
     background: var(--bg-primary);
     border-top: 1px solid var(--border-color);
-    display: flex;
-    gap: var(--space-md);
-    align-items: flex-end;
     flex-shrink: 0;
 }
 
 .box-ai-chat-input-wrapper {
-    flex: 1;
+    position: relative;
+    width: 100%;
 }
 
 .box-ai-chat-input {
     width: 100%;
     padding: 14px var(--space-lg);
+    padding-right: 60px; /* Space for inline button */
     background: var(--bg-secondary);
     border: 1.5px solid var(--gray-200);
     border-radius: var(--radius-lg);
@@ -441,41 +440,62 @@
     box-shadow: 0 0 0 3px rgba(0, 112, 224, 0.1);
 }
 
-/* ==================== SEND BUTTON ==================== */
+/* ==================== SEND BUTTON (INLINE) ==================== */
 .box-ai-chat-send {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, var(--box-blue) 0%, var(--box-blue-dark) 100%);
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background: var(--gray-100);
     border: none;
-    border-radius: var(--radius-full);
-    color: white;
+    border-radius: var(--radius-md);
+    color: var(--gray-500);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(0, 112, 224, 0.3);
-    flex-shrink: 0;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+/* Active state - when user has typed something */
+.box-ai-chat-send.active {
+    background: linear-gradient(135deg, var(--box-blue) 0%, var(--box-blue-dark) 100%);
+    color: white;
+    opacity: 1;
+    box-shadow: 0 2px 8px rgba(0, 112, 224, 0.25);
+}
+
+.box-ai-chat-send.active:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 112, 224, 0.35);
 }
 
 .box-ai-chat-send:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 112, 224, 0.4);
+    opacity: 0.8;
+    background: var(--gray-200);
+}
+
+.box-ai-chat-send.active:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--box-blue-light) 0%, var(--box-blue) 100%);
 }
 
 .box-ai-chat-send:active:not(:disabled) {
-    transform: translateY(0);
+    transform: scale(0.95);
 }
 
 .box-ai-chat-send:disabled {
-    opacity: 0.4;
+    opacity: 0.3;
     cursor: not-allowed;
 }
 
 .box-ai-chat-send svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     fill: currentColor;
+    transition: transform 0.2s ease;
 }
 
 /* ==================== FLOATING ACTION BUTTON ==================== */
@@ -624,16 +644,19 @@
         font-size: 16px; /* Prevents iOS zoom */
         min-height: 70px;
         border-radius: var(--radius-md);
+        padding-right: 54px; /* Adjusted space for smaller mobile button */
     }
 
     .box-ai-chat-send {
-        width: 46px;
-        height: 46px;
+        width: 36px;
+        height: 36px;
+        bottom: 8px;
+        right: 8px;
     }
 
     .box-ai-chat-send svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
 }
 

@@ -104,11 +104,20 @@
             }
         });
 
-        // Auto-resize textarea with smooth transition
+        // Auto-resize textarea and update button state
         $inputField.on('input', function() {
+            // Auto-resize
             this.style.height = 'auto';
             var newHeight = Math.min(this.scrollHeight, 120);
             this.style.height = newHeight + 'px';
+
+            // Toggle button active state based on input
+            var hasText = $(this).val().trim().length > 0;
+            if (hasText) {
+                $sendButton.addClass('active');
+            } else {
+                $sendButton.removeClass('active');
+            }
         });
 
         // Send message on Enter (Shift+Enter for new line)
@@ -139,6 +148,7 @@
 
             // Clear and reset input
             $inputField.val('').css('height', '48px');
+            $sendButton.removeClass('active');
 
             // Show typing indicator
             var $typingIndicator = createTypingIndicator();
