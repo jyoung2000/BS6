@@ -277,18 +277,19 @@ class Box_Document_Viewer {
 
                 .btn-ai {
                     color: #fff !important;
-                    background: linear-gradient(135deg, #AF52DE, #8E3AC0);
-                    box-shadow: 0 2px 8px rgba(175, 82, 222, 0.35);
+                    background: linear-gradient(135deg, #0070E0, #0061D5);
+                    box-shadow: 0 2px 8px rgba(0, 112, 224, 0.35);
                 }
 
                 .btn-ai:hover {
-                    background: linear-gradient(135deg, #8E3AC0, #6D28D9);
+                    background: linear-gradient(135deg, #0080F0, #0070E0);
                     transform: translateY(-1px);
-                    box-shadow: 0 4px 16px rgba(175, 82, 222, 0.45);
+                    box-shadow: 0 4px 16px rgba(0, 112, 224, 0.45);
                 }
 
                 .btn-ai:active {
                     transform: translateY(0);
+                    box-shadow: 0 2px 6px rgba(0, 112, 224, 0.3);
                 }
 
                 .btn-ai .dashicons {
